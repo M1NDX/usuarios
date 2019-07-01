@@ -26,15 +26,19 @@ function filtrarUsuarios(){
 function actualizarHTML(){
      //let user0html = userToHTML(usuarios[0]);
     //document.querySelector('ul').insertAdjacentHTML('beforeend', user0html);
+    let lista = document.querySelector('ul');
+    let html = usuarios.map(user => userToHTML(user)).join(' ');
+    lista.innerHTML = html;
 
-    usuarios.forEach(user => document.querySelector('ul')
+    /*usuarios.forEach(user => document.querySelector('ul')
                             .insertAdjacentHTML('beforeend',
-                            userToHTML(user)));
+                            userToHTML(user)));*/
 
 }
 
 function userToHTML(user){
-    let html = `<li class="list-group-item">
+    let html = /*html*/
+    `<li class="list-group-item">
     <div class="row">
       <div class="col-2">
         <img src="https://sistemas.com/termino/wp-content/uploads/Usuario-Icono.jpg" width="80" alt="">
@@ -59,7 +63,6 @@ function userToHTML(user){
         </div>
       </div>
     </div>
-    
   </li>`;
 
     return html;
