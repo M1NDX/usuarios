@@ -7,7 +7,8 @@ class User{
         this.password = password;
         this.hobbies = hobbies;
         this.sexo = sexo;
-        this.url = ""; //"https://randomuser.me/api/portraits/men/65.jpg"
+        this.url = "https://randomuser.me/api/portraits/"
+                  +(sexo=='F'?"women":"men")+"/"+this.id+".jpg"
     }
 }
 
