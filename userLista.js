@@ -3,6 +3,7 @@ let usuarios  = [];
 
 usuarios.push(new User("Juan","test@test.com", "1234","M") );
 usuarios.push(new User("Ana","testA@test.com", "A1234","F") );
+actualizarHTML(usuarios);
 
 console.log(usuarios);
 
@@ -23,14 +24,14 @@ function filtrarUsuarios(){
 
 }
 
-function actualizarHTML(){
+function actualizarHTML(arreglo){
      //let user0html = userToHTML(usuarios[0]);
     //document.querySelector('ul').insertAdjacentHTML('beforeend', user0html);
     let lista = document.querySelector('ul');
-    let html = usuarios.map(user => userToHTML(user)).join(' ');
+    let html = arreglo.map(user => userToHTML(user)).join(' ');
     lista.innerHTML = html;
 
-    /*usuarios.forEach(user => document.querySelector('ul')
+    /*arreglo.forEach(user => document.querySelector('ul')
                             .insertAdjacentHTML('beforeend',
                             userToHTML(user)));*/
 
