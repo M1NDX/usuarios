@@ -8,12 +8,26 @@ actualizarHTML(usuarios);
 console.log(usuarios);
 
 bBuscar.onclick = filtrarUsuarios; //sin paréntesis
+bBuscar.addEventListener('click', () => console.log("buscando"));
 
 
 
 
 function registrarUsuario(){
-    
+     console.log("guardando");
+     let username = document.querySelector('#username').value;
+     let email = document.querySelector('#email').value;
+     let psw = document.querySelector('#psw').value;
+     let hobbies = document.querySelector('#hobbies').value;
+     
+     let sx =document.querySelector('#sxf').checked ? 'F':'M'
+
+    let nUser = new User(username,email,psw,sx,hobbies.split('\n'));
+    usuarios.push(nUser);
+    actualizarHTML(usuarios);
+    console.log(nUser);
+    console.log(JSON.stringify(nUser));
+     $('#modelId').modal('hide');
 }
 
 function borrarUsuario(id){
@@ -23,7 +37,17 @@ function borrarUsuario(id){
   actualizarHTML(usuarios);
 }
 
-function editarUsuario(){
+function editarUsuario(id){
+  let user = usuarios.find(usr => usr.id == id);
+  if(user){
+    document.querySelector('#username').value = user.username;
+    document.querySelector('#email').value = user.email;
+    //document.querySelector('#psw').hidden = true;
+    document.querySelector('#psw').value = user.password;
+    document.querySelector('#sxf').checked = user.sexo =='F';
+    document.querySelector('#sxm').checked = user.sexo =='M';
+    document.querySelector('#hobbies').value= user.hobbies.join('\n');
+  }
 
 }
 
@@ -31,7 +55,7 @@ function filtrarUsuarios(){
   console.log("usuarios filtrados");
   let campoBusqueda = document.getElementById('search');
   let valor = campoBusqueda.value;
-  let filtro = usuarios.filter(usr => usr.username == valor)
+  let filtro = usuarios.filter(usr => usr.username.toUpperCase().includes(valor.toUpperCase()));
   actualizarHTML(filtro);
 }
 
@@ -64,7 +88,7 @@ function userToHTML(user){
       </div>
       <div class="col-2 "> 
         <div class="row mb-2">
-            <div class="col-6 btn btn-primary">
+            <div class="col-6 btn btn-primary" data-toggle="modal" data-target="#modelId" onclick="editarUsuario(${user.id})">
               <i class="fas fa-pencil-alt    "></i>
             </div>
           </div>
