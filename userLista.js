@@ -1,4 +1,5 @@
 
+
 let usuarios  = [];
 
 usuarios.push(new User("Juan","test@test.com", "1234","M",["Futbol","natación"]) );
@@ -7,26 +8,44 @@ actualizarHTML(usuarios);
 
 console.log(usuarios);
 
+$('#modelId').on('shown.bs.modal', function() {
+  $('#username').focus();
+})
+
 bBuscar.onclick = filtrarUsuarios; //sin paréntesis
 bBuscar.addEventListener('click', () => console.log("buscando"));
+bNuevo.addEventListener('click', establecerModoRegistro);
 
-
+let modoRegistro = true;
+let usuarioEdit;
+function establecerModoRegistro(){
+  document.querySelector('#modelId h5.modal-title')
+          .innerText =  "Registrar Usu ario";
+  modoRegistro = true;
+  document.querySelector('form').reset();
+  document.querySelector('#username').focus();
+}
 
 
 function registrarUsuario(){
-     console.log("guardando");
-     let username = document.querySelector('#username').value;
-     let email = document.querySelector('#email').value;
-     let psw = document.querySelector('#psw').value;
-     let hobbies = document.querySelector('#hobbies').value;
-     
-     let sx =document.querySelector('#sxf').checked ? 'F':'M'
 
-    let nUser = new User(username,email,psw,sx,hobbies.split('\n'));
-    usuarios.push(nUser);
+    console.log("guardando");
+    let username = document.querySelector('#username').value;
+    let email = document.querySelector('#email').value;
+    let psw = document.querySelector('#psw').value;
+    let hobbies = document.querySelector('#hobbies').value;
+    let sx =document.querySelector('#sxf').checked ? 'F':'M'
+     if(modoRegistro){
+      let nUser = new User(username,email,psw,sx,hobbies.split('\n'));
+      usuarios.push(nUser);
+    }else{
+      usuarioEdit.username = username;
+      usuarioEdit.email = email;
+      usuarioEdit.password = psw;
+      usuarioEdit.hobbies = hobbies.split('\n');
+    }
+   
     actualizarHTML(usuarios);
-    console.log(nUser);
-    console.log(JSON.stringify(nUser));
      $('#modelId').modal('hide');
 }
 
@@ -40,6 +59,10 @@ function borrarUsuario(id){
 function editarUsuario(id){
   let user = usuarios.find(usr => usr.id == id);
   if(user){
+    modoRegistro= false;
+    usuarioEdit = user;
+    document.querySelector('#modelId h5.modal-title').innerText = "Editar Usuario";
+    document.getElementById('imagenR').src = user.url;
     document.querySelector('#username').value = user.username;
     document.querySelector('#email').value = user.email;
     //document.querySelector('#psw').hidden = true;
